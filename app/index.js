@@ -1,26 +1,24 @@
 'use strict';
-
-var join = require('path').join;
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
+var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
-  constructor: function() {
-    yeoman.generators.Base.apply(this, arguments);
+  initializing: function () {
     this.pkg = require('../package.json');
   },
 
-  askFor: function() {
+  prompting: function () {
     var done = this.async();
 
-    // welcome message
-    if (!this.options['skip-welcome-message']) {
-      this.log(require('yosay')());
-      this.log(chalk.magenta(
-        'Out of the box I include EDM template and ' +
-        'Gruntfile.js to build your EDM.'
-      ));
-    }
+    // Have Yeoman greet the user.
+    this.log(yosay(
+      'Welcome to the ace' + chalk.red('LavenderEmail') + ' generator!'
+    ));
+    this.log(chalk.magenta(
+      'Out of the box I include EDM template and ' +
+      'Gruntfile.js to build your EDM.'
+    ));
 
     var prompts = [{
       name: 'projectName',
@@ -65,69 +63,44 @@ module.exports = yeoman.generators.Base.extend({
     }.bind(this));
   },
 
-  gruntfile: function() {
-    this.template('Gruntfile.js');
-  },
+  writing: {
+    app: function () {
+      this.directory(this.devFolder);
 
-  packageJSON: function() {
-    this.template('_package.json', 'package.json');
-  },
-
-  git: function() {
-    this.template('gitignore', '.gitignore');
-    this.copy('gitattributes', '.gitattributes');
-  },
-
-  bower: function() {
-    var bower = {
-      name: this._.slugify(this.appname),
-      private: true,
-      dependencies: {}
-    };
-
-    //this.copy('bowerrc', '.bowerrc');
-    this.template('bowerrc', '.bowerrc');
-    this.write('bower.json', JSON.stringify(bower, null, 2));
-  },
-
-  jshint: function() {
-    this.copy('jshintrc', '.jshintrc');
-  },
-
-  editorConfig: function() {
-    this.copy('editorconfig', '.editorconfig');
-  },
-
-  writeIndex: function() {
-    this.indexFile = this.engine(
-      this.readFileAsString(join(this.existingTemplatePath, this.devFile)),
-      this
-    );
-  },
-
-  app: function() {
-    this.directory(this.devFolder);
-
-    if (this.noVariations > 1) {
-      for(var i=0;i<this.noVariations;i+=1) {
-        this.mkdir(this.devFolder + '/' + (i+1) + '/img');
-        this.write(this.devFolder + '/' + (i+1) + '/' + this.devFile, this.indexFile);
+      if (this.noVariations > 1) {
+        for(var i=0;i<this.noVariations;i+=1) {
+          this.mkdir(this.devFolder + '/' + (i+1) + '/img');
+          this.write(this.devFolder + '/' + (i+1) + '/' + this.devFile, this.indexFile);
+        }
+      } else {
+        this.mkdir(this.devFolder + '/img');
+        this.write(this.devFolder + '/' + this.devFile, this.indexFile);
       }
-    } else {
-      this.mkdir(this.devFolder + '/img');
-      this.write(this.devFolder + '/' + this.devFile, this.indexFile);
+
+      this.fs.copy(
+        this.templatePath('_package.json'),
+        this.destinationPath('package.json')
+      );
+      this.template('gitignore', '.gitignore');
+      this.copy('gitattributes', '.gitattributes');
+      this.template('Gruntfile.js');
+    },
+
+    projectfiles: function () {
+      this.fs.copy(
+        this.templatePath('editorconfig'),
+        this.destinationPath('.editorconfig')
+      );
+      this.fs.copy(
+        this.templatePath('jshintrc'),
+        this.destinationPath('.jshintrc')
+      );
     }
   },
 
-  install: function() {
-    this.on('end', function() {
-
-      if (!this.options['skip-install']) {
-        this.installDependencies({
-          skipMessage: this.options['skip-install-message'],
-          skipInstall: this.options['skip-install']
-        });
-      }
+  install: function () {
+    this.installDependencies({
+      skipInstall: this.options['skip-install']
     });
   }
 });

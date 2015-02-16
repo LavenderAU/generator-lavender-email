@@ -1,6 +1,2 @@
 node_modules
-dist<%
-if (includeLess) { %>
-.tmp
-<% } %>
-bower_components
+<%%= buildFolder %>

@@ -1,38 +1,39 @@
 {
   "name": "generator-lavender-email",
-  "version": "0.5.1",
-  "description": "Scaffold out a EDM template",
-  "license": "BSD",
-  "repository": "yeoman/generator-email",
-  "author": "Lavender",
+  "version": "0.0.0",
+  "description": "Scaffolds EDM template based on various kind of options",
+  "license": "MIT",
   "main": "app/index.js",
+  "repository": "LavenderAU/generator-lavender-email",
+  "author": {
+    "name": "Lavender Communications Group",
+    "email": "",
+    "url": "https://github.com/LavenderAU"
+  },
   "engines": {
-    "node": ">=0.10.0",
-    "npm": ">=1.2.10"
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
   },
   "files": [
     "app"
   ],
   "keywords": [
     "yeoman-generator",
-    "web",
-    "app",
-    "front-end",
-    "h5bp",
-    "modernizr",
-    "jquery",
-    "grunt"
+    "lavender",
+    "edm",
+    "email"
   ],
   "dependencies": {
-    "chalk": "^0.5.1",
-    "cheerio": "^0.17.0",
-    "yeoman-generator": "~0.17.3",
-    "yosay": "~1.0.0"
+    "yeoman-generator": "^0.18.0",
+    "chalk": "^0.5.0",
+    "yosay": "^0.3.0"
   },
   "devDependencies": {
-    "underscore": "^1.6.0"
+    "mocha": "*"
   },
   "peerDependencies": {
-    "yo": ">=1.2.0"
+    "yo": ">=1.0.0"
   }
 }
