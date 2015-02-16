@@ -4,7 +4,7 @@
   "description": "Scaffold out a EDM template",
   "license": "BSD",
   "repository": "yeoman/generator-email",
-  "author": "The Yeoman Team",
+  "author": "Lavender",
   "main": "app/index.js",
   "engines": {
     "node": ">=0.10.0",
@@ -30,11 +30,9 @@
     "yosay": "~1.0.0"
   },
   "devDependencies": {
-    "mocha": "*",
     "underscore": "^1.6.0"
   },
   "peerDependencies": {
-    "yo": ">=1.2.0",
-    "generator-mocha": ">=0.1.0"
+    "yo": ">=1.2.0"
   }
 }
