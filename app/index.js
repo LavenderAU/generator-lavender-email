@@ -82,13 +82,13 @@ module.exports = yeoman.generators.Base.extend({
       if (this.noVariations > 1) {
         for (var i = 1; i <= this.noVariations; i += 1) {
           this.mkdir(this.devFolder + '/' + i + '/img');
-          this.directory(this.existingTemplatePath + '/' + i + '/img', this.devFolder + '/' + i + '/img');
-          this.template(this.devFolder + '/' + i + '/' + this.devFile, this.indexFile, projectInfo);
+          this.directory(this.existingTemplatePath + '/img', this.devFolder + '/' + i + '/img');
+          this.template(this.indexFile, this.devFolder + '/' + i + '/' + this.devFile, projectInfo);
         }
       } else {
         this.mkdir(this.devFolder + '/img');
         this.directory(this.existingTemplatePath + '/img', this.devFolder + '/img');
-        this.template(this.devFolder + '/' + this.devFile, this.indexFile);
+        this.template(this.indexFile, this.devFolder + '/' + this.devFile, projectInfo);
       }
 
       this.template('_package.json', 'package.json', projectInfo);
