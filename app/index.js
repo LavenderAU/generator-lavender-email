@@ -74,6 +74,7 @@ module.exports = yeoman.generators.Base.extend({
       }
 
       try {
+        throw true;
         if (this.noVariations > 1) {
           for (var i = 1; i <= this.noVariations; i += 1) {
             this.mkdir(this.devFolder + '/' + i + '/img');
