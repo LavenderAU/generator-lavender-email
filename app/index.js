@@ -4,11 +4,11 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
-  initializing: function () {
+  initializing: function() {
     this.pkg = require('../package.json');
   },
 
-  prompting: function () {
+  prompting: function() {
     var done = this.async();
 
     // Have Yeoman greet the user.
@@ -64,16 +64,24 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   writing: {
-    app: function () {
+    app: function() {
       this.directory(this.devFolder);
 
+      if (this.existingTemplatePath === this.sourceRoot()) {
+        this.indexFile = this.devFile, this.existingTemplatePath + '/' + this.devFile;
+      } else {
+        this.indexFile = this.devFile, this.existingTemplatePath + '/' + this.devFile;
+      }
+
       if (this.noVariations > 1) {
-        for(var i=0;i<this.noVariations;i+=1) {
-          this.mkdir(this.devFolder + '/' + (i+1) + '/img');
-          this.write(this.devFolder + '/' + (i+1) + '/' + this.devFile, this.indexFile);
+        for (var i = 0; i < this.noVariations; i += 1) {
+          this.mkdir(this.devFolder + '/' + (i + 1) + '/img');
+          this.directory(this.existingTemplatePath + '/' + (i + 1) + '/img', this.devFolder + '/' + (i + 1) + '/img');
+          this.write(this.devFolder + '/' + (i + 1) + '/' + this.devFile, this.indexFile);
         }
       } else {
         this.mkdir(this.devFolder + '/img');
+        this.directory(this.existingTemplatePath + '/img', this.devFolder + '/img');
         this.write(this.devFolder + '/' + this.devFile, this.indexFile);
       }
 
@@ -86,7 +94,7 @@ module.exports = yeoman.generators.Base.extend({
       this.template('Gruntfile.js');
     },
 
-    projectfiles: function () {
+    projectfiles: function() {
       this.fs.copy(
         this.templatePath('editorconfig'),
         this.destinationPath('.editorconfig')
@@ -98,7 +106,7 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
-  install: function () {
+  install: function() {
     this.installDependencies({
       skipInstall: this.options['skip-install']
     });
