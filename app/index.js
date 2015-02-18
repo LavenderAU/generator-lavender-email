@@ -65,6 +65,12 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function() {
+      var projectInfo = {
+        projectName: this.projectName,
+        devFolder: this.devFolder,
+        buildFolder: this.buildFolder
+      };
+
       this.directory(this.devFolder);
 
       if (this.existingTemplatePath === this.sourceRoot()) {
@@ -73,30 +79,22 @@ module.exports = yeoman.generators.Base.extend({
         this.indexFile = this.existingTemplatePath + '/' + this.devFile;
       }
 
-      try {
-        throw true;
-        if (this.noVariations > 1) {
-          for (var i = 1; i <= this.noVariations; i += 1) {
-            this.mkdir(this.devFolder + '/' + i + '/img');
-            this.directory(this.existingTemplatePath + '/' + i + '/img', this.devFolder + '/' + i + '/img');
-            this.write(this.devFolder + '/' + i + '/' + this.devFile, this.indexFile);
-          }
-        } else {
-          this.mkdir(this.devFolder + '/img');
-          this.directory(this.existingTemplatePath + '/img', this.devFolder + '/img');
-          this.write(this.devFolder + '/' + this.devFile, this.indexFile);
+      if (this.noVariations > 1) {
+        for (var i = 1; i <= this.noVariations; i += 1) {
+          this.mkdir(this.devFolder + '/' + i + '/img');
+          this.directory(this.existingTemplatePath + '/' + i + '/img', this.devFolder + '/' + i + '/img');
+          this.template(this.devFolder + '/' + i + '/' + this.devFile, this.indexFile, projectInfo);
         }
-      } catch (e) {
-        console.log(answers);
+      } else {
+        this.mkdir(this.devFolder + '/img');
+        this.directory(this.existingTemplatePath + '/img', this.devFolder + '/img');
+        this.template(this.devFolder + '/' + this.devFile, this.indexFile);
       }
 
-      this.fs.copy(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json')
-      );
-      this.template('gitignore', '.gitignore');
+      this.template('_package.json', 'package.json', projectInfo);
+      this.template('gitignore', '.gitignore', projectInfo);
       this.copy('gitattributes', '.gitattributes');
-      this.template('Gruntfile.js');
+      this.template('Gruntfile.js', 'Gruntfile.js', projectInfo);
     },
 
     projectfiles: function() {
