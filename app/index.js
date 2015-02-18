@@ -68,21 +68,25 @@ module.exports = yeoman.generators.Base.extend({
       this.directory(this.devFolder);
 
       if (this.existingTemplatePath === this.sourceRoot()) {
-        this.indexFile = this.devFile, this.existingTemplatePath + '/' + this.devFile;
+        this.indexFile = this.existingTemplatePath + '/' + this.devFile;
       } else {
-        this.indexFile = this.devFile, this.existingTemplatePath + '/' + this.devFile;
+        this.indexFile = this.existingTemplatePath + '/' + this.devFile;
       }
 
-      if (this.noVariations > 1) {
-        for (var i = 0; i < this.noVariations; i += 1) {
-          this.mkdir(this.devFolder + '/' + (i + 1) + '/img');
-          this.directory(this.existingTemplatePath + '/' + (i + 1) + '/img', this.devFolder + '/' + (i + 1) + '/img');
-          this.write(this.devFolder + '/' + (i + 1) + '/' + this.devFile, this.indexFile);
+      try {
+        if (this.noVariations > 1) {
+          for (var i = 1; i <= this.noVariations; i += 1) {
+            this.mkdir(this.devFolder + '/' + i + '/img');
+            this.directory(this.existingTemplatePath + '/' + i + '/img', this.devFolder + '/' + i + '/img');
+            this.write(this.devFolder + '/' + i + '/' + this.devFile, this.indexFile);
+          }
+        } else {
+          this.mkdir(this.devFolder + '/img');
+          this.directory(this.existingTemplatePath + '/img', this.devFolder + '/img');
+          this.write(this.devFolder + '/' + this.devFile, this.indexFile);
         }
-      } else {
-        this.mkdir(this.devFolder + '/img');
-        this.directory(this.existingTemplatePath + '/img', this.devFolder + '/img');
-        this.write(this.devFolder + '/' + this.devFile, this.indexFile);
+      } catch (e) {
+        console.log(answers);
       }
 
       this.fs.copy(
