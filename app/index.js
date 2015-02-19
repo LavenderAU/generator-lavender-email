@@ -2,6 +2,8 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var cheerio = require('cheerio'),
+  $;
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function() {
@@ -27,7 +29,7 @@ module.exports = yeoman.generators.Base.extend({
     }, {
       name: 'devFolder',
       message: 'Ok so, where do you want to put the dev source files?',
-      default: 'app'
+      default: 'src'
     }, {
       name: 'buildFolder',
       message: 'And the compiled files?',
@@ -56,7 +58,7 @@ module.exports = yeoman.generators.Base.extend({
       this.devFolder = answers.devFolder;
       this.noVariations = answers.noVariations;
       this.isSilverPop = answers.isSilverPop;
-      this.existingTemplatePath = answers.existingTemplatePath || this.sourceRoot();
+      this.existingTemplatePath = answers.existingTemplatePath;
       this.devFile = 'index.html';
 
       done();
@@ -66,29 +68,56 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     app: function() {
       var projectInfo = {
-        projectName: this.projectName,
-        devFolder: this.devFolder,
-        buildFolder: this.buildFolder
-      };
+          projectName: this.projectName,
+          devFolder: this.devFolder,
+          buildFolder: this.buildFolder
+        },
+        tempFile;
 
       this.directory(this.devFolder);
 
-      if (this.existingTemplatePath === this.sourceRoot()) {
+      if (this.existingTemplatePath) {
         this.indexFile = this.existingTemplatePath + '/' + this.devFile;
       } else {
-        this.indexFile = this.existingTemplatePath + '/' + this.devFile;
+        this.indexFile = this.sourceRoot() + '/' + this.devFile;
       }
 
       if (this.noVariations > 1) {
         for (var i = 1; i <= this.noVariations; i += 1) {
           this.mkdir(this.devFolder + '/' + i + '/img');
-          this.directory(this.existingTemplatePath + '/img', this.devFolder + '/' + i + '/img');
-          this.template(this.indexFile, this.devFolder + '/' + i + '/' + this.devFile, projectInfo);
+          if (this.existingTemplatePath) {
+            (function(that, idx) {
+              that.fetch(that.indexFile, that.devFolder + '/' + idx, function() {
+                tempFile = that.readFileAsString(that.devFolder + '/' + idx + '/' + that.devFile);
+                $ = cheerio.load(tempFile);
+                $('img').each(function(j, elem) {
+                  var path = $(this).attr('src');
+                  that.fetch(path, that.devFolder + '/' + idx + '/img', function() {});
+                });
+              });
+            }(this, i));
+          } else {
+            this.directory(this.sourceRoot() + '/img', this.devFolder + '/' + i + '/img');
+            this.template(this.indexFile, this.devFolder + '/' + i + '/' + this.devFile, projectInfo);
+          }
         }
       } else {
         this.mkdir(this.devFolder + '/img');
-        this.directory(this.existingTemplatePath + '/img', this.devFolder + '/img');
-        this.template(this.indexFile, this.devFolder + '/' + this.devFile, projectInfo);
+        if (this.existingTemplatePath) {
+          (function(that) {
+            that.fetch(that.indexFile, that.devFolder, function() {
+              tempFile = that.readFileAsString(that.devFolder + '/' + that.devFile);
+              $ = cheerio.load(tempFile);
+              $('img').each(function(i, elem) {
+                var path = $(this).attr('src');
+                that.fetch(path, that.devFolder + '/img', function() {});
+              });
+            });
+          }(this));
+        } else {
+          this.directory(this.sourceRoot() + '/img', this.devFolder + '/img');
+          this.template(this.indexFile, this.devFolder + '/' + this.devFile, projectInfo);
+        }
       }
 
       this.template('_package.json', 'package.json', projectInfo);
