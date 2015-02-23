@@ -2,12 +2,22 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var request = require('request');
+var fs = require('fs');
 var cheerio = require('cheerio'),
-  $;
+  $, imgArr = [];
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function() {
     this.pkg = require('../package.json');
+    this.fetchRemote = function(options, callback) {
+      request(options, function(error, response, body) {
+        callback(error, response, body);
+      });
+    };
+    this.fetchRemoteFile = function(options, savePath) {
+      request(options).pipe(fs.createWriteStream(savePath));
+    };
   },
 
   prompting: function() {
@@ -45,6 +55,26 @@ module.exports = yeoman.generators.Base.extend({
     }, {
       name: 'existingTemplatePath',
       message: 'If this template is similar to a previously built EDM, specify its path.'
+    }, {
+      when: function(answers) {
+        return answers.existingTemplatePath.length > 0;
+      },
+      message: 'Is this path password protected?',
+      type: 'confirm',
+      name: 'isPasswordProtected'
+    }, {
+      when: function(answers) {
+        return answers.isPasswordProtected;
+      },
+      message: 'Enter your username',
+      name: 'username'
+    }, {
+      when: function(answers) {
+        return answers.isPasswordProtected;
+      },
+      message: 'Enter your password',
+      name: 'password',
+      type: 'password'
     }];
 
     this.prompt(prompts, function(answers) {
@@ -59,6 +89,9 @@ module.exports = yeoman.generators.Base.extend({
       this.noVariations = answers.noVariations;
       this.isSilverPop = answers.isSilverPop;
       this.existingTemplatePath = answers.existingTemplatePath;
+      this.isPasswordProtected = answers.isPasswordProtected;
+      this.username = answers.username;
+      this.password = answers.password;
       this.devFile = 'index.html';
 
       done();
@@ -72,7 +105,7 @@ module.exports = yeoman.generators.Base.extend({
           devFolder: this.devFolder,
           buildFolder: this.buildFolder
         },
-        tempFile;
+        tempFile, reqObj = {};
 
       this.directory(this.devFolder);
 
@@ -87,13 +120,38 @@ module.exports = yeoman.generators.Base.extend({
           this.mkdir(this.devFolder + '/' + i + '/img');
           if (this.existingTemplatePath) {
             (function(that, idx) {
-              that.fetch(that.indexFile, that.devFolder + '/' + idx, function() {
-                tempFile = that.readFileAsString(that.devFolder + '/' + idx + '/' + that.devFile);
-                $ = cheerio.load(tempFile);
-                $('img').each(function(j, elem) {
-                  var path = $(this).attr('src');
-                  that.fetch(path, that.devFolder + '/' + idx + '/img', function() {});
-                });
+              reqObj.url = that.indexFile;
+              if (that.isPasswordProtected) {
+                reqObj.auth = {
+                  user: that.username,
+                  pass: that.password,
+                  sendImmediately: false
+                }
+              }
+              that.fetchRemote(reqObj, function(error, response, body) {
+                if (!error) {
+                  that.write(that.devFolder + '/' + idx + '/' + that.devFile, body);
+                  $ = cheerio.load(body);
+                  $('img').each(function(j, elem) {
+                    var path = $(this).attr('src'),
+                      imgReq = {},
+                      filename = path.substring(path.lastIndexOf('/') + 1);
+
+                    if (imgArr.indexOf(path) === -1) {
+                      imgReq.url = path;
+                      if (that.isPasswordProtected) {
+                        imgReq.auth = {
+                          user: that.username,
+                          pass: that.password,
+                          sendImmediately: false
+                        }
+                      }
+                      imgArr.push(path);
+                      that.fetchRemoteFile(imgReq, that.devFolder + '/' + idx + '/img/' + filename);
+                    }
+
+                  });
+                }
               });
             }(this, i));
           } else {
@@ -105,13 +163,36 @@ module.exports = yeoman.generators.Base.extend({
         this.mkdir(this.devFolder + '/img');
         if (this.existingTemplatePath) {
           (function(that) {
-            that.fetch(that.indexFile, that.devFolder, function() {
-              tempFile = that.readFileAsString(that.devFolder + '/' + that.devFile);
-              $ = cheerio.load(tempFile);
-              $('img').each(function(i, elem) {
-                var path = $(this).attr('src');
-                that.fetch(path, that.devFolder + '/img', function() {});
-              });
+            reqObj.url = that.indexFile;
+            if (that.isPasswordProtected) {
+              reqObj.auth = {
+                user: that.username,
+                pass: that.password,
+                sendImmediately: false
+              }
+            }
+            that.fetchRemote(reqObj, function(error, response, body) {
+              if (!error) {
+                that.write(that.devFolder + '/' + that.devFile, body);
+                $ = cheerio.load(body);
+                $('img').each(function(i, elem) {
+                  var path = $(this).attr('src'),
+                    imgReq = {},
+                    filename = path.substring(path.lastIndexOf('/') + 1);
+                  if (imgArr.indexOf(path) === -1) {
+                    imgReq.url = path;
+                    if (that.isPasswordProtected) {
+                      imgReq.auth = {
+                        user: that.username,
+                        pass: that.password,
+                        sendImmediately: false
+                      }
+                    }
+                    imgArr.push(path);
+                    that.fetchRemoteFile(imgReq, that.devFolder + '/img/' + filename);
+                  }
+                });
+              }
             });
           }(this));
         } else {
