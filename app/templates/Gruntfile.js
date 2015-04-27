@@ -19,7 +19,7 @@ module.exports = function(grunt) {
   // Configurable paths
   var config = {
     app: '<%= devFolder%>',
-    dist: '<%%= buildFolder%>'
+    dist: '<%= buildFolder%>'
   };
 
   // Define the configuration for all the tasks
@@ -82,6 +82,34 @@ module.exports = function(grunt) {
       }
     },
 
+    dom_munger: {
+      prepare: {
+        options: {
+          update: {
+            selector: 'a',
+            attribute: 'target',
+            value: '_blank'
+          },
+          callback: function($) {
+            $('img').each(function() {
+              var $this = $(this),
+                src = ($this.attr('src')).split('/');
+
+              src = src[src.length - 1];
+              $this.attr('src', 'img/' + src);
+
+              if (['p.gif', 'cleardot.gif'].indexOf(src) === -1) {
+                if (!$this.attr('alt')) {
+                  throw new Error('Alt tag missing from ' + src);
+                }
+              }
+            });
+          }
+        },
+        src: '<%= config.dist %>/{,*/}*.html'
+      },
+    },
+
     // Empties folders to start fresh
     clean: {
       dist: {
@@ -100,11 +128,10 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%%= config.app %>',
-          dest: '<%%= config.dist %>',
+          cwd: '<%= config.app %>',
+          dest: '<%= config.dist %>',
           src: [
-            '*.{ico,png,txt,gif,jpg}',
-            'img/{,*/}*.webp',
+            '{,*/}img/{,*/}*.{ico,png,txt,gif,jpg}',
             '{,*/}*.html'
           ]
         }]
@@ -133,7 +160,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'copy:dist'
+    'copy:dist',
+    'dom_munger:prepare'
   ]);
 
   grunt.registerTask('default', [
