@@ -1,12 +1,5 @@
 // Generated on <%%= (new Date).toISOString().split('T')[0] %> using
-// <%%= pkg.name %> <%%= pkg.version %>
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// If you want to recursively match all subfolders, use:
-// 'test/spec/**/*.js'
 
 module.exports = function(grunt) {
 
@@ -19,6 +12,10 @@ module.exports = function(grunt) {
   // Configurable paths
   var config = {
     app: '<%= devFolder%>',
+    <%
+    if (stagingPath) { %>
+      staging: '<%= stagingPath%>', <%
+    } %>
     dist: '<%= buildFolder%>'
   };
 
@@ -106,8 +103,8 @@ module.exports = function(grunt) {
             });
           }
         },
-        src: '<%= config.dist %>/{,*/}*.html'
-      },
+        src: '<%%= config.dist %>/{,*/}*.html'
+      }
     },
 
     // Empties folders to start fresh
@@ -128,8 +125,20 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= config.app %>',
-          dest: '<%= config.dist %>',
+          cwd: '<%%= config.app %>',
+          dest: '<%%= config.dist %>',
+          src: [
+            '{,*/}img/{,*/}*.{ico,png,txt,gif,jpg}',
+            '{,*/}*.html'
+          ]
+        }]
+      },
+      staging: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%%= config.dist %>',
+          dest: '<%%= config.staging %>',
           src: [
             '{,*/}img/{,*/}*.{ico,png,txt,gif,jpg}',
             '{,*/}*.html'
@@ -163,6 +172,14 @@ module.exports = function(grunt) {
     'copy:dist',
     'dom_munger:prepare'
   ]);
+
+  <%
+  if (stagingPath) { %>
+    grunt.registerTask('staging', [
+      'build',
+      'copy:staging'
+    ]); <%
+  } %>
 
   grunt.registerTask('default', [
     'build'

@@ -49,6 +49,9 @@ module.exports = yeoman.generators.Base.extend({
       message: 'Cheerios. How many variations of the EDM needs to be built?',
       default: 1
     }, {
+      name: 'stagingPath',
+      message: 'Where will this be staged? (eg. //192.168.203.248/inetpub/wwwroot/images.lav.net.au/amex/JOB_CODE/)'
+    }, {
       name: 'isSilverPop',
       type: 'confirm',
       message: 'Is this a SilverPop template? (or Standard)'
@@ -86,7 +89,9 @@ module.exports = yeoman.generators.Base.extend({
 
       this.projectName = answers.projectName;
       this.devFolder = answers.devFolder;
+      this.buildFolder = answers.buildFolder;
       this.noVariations = answers.noVariations;
+      this.stagingPath = answers.stagingPath;
       this.isSilverPop = answers.isSilverPop;
       this.existingTemplatePath = answers.existingTemplatePath;
       this.isPasswordProtected = answers.isPasswordProtected;
@@ -103,13 +108,15 @@ module.exports = yeoman.generators.Base.extend({
       var projectInfo = {
           projectName: this.projectName,
           devFolder: this.devFolder,
-          buildFolder: this.buildFolder
+          buildFolder: this.buildFolder,
+          stagingPath: this.stagingPath
         },
         tempFile, reqObj = {};
 
       this.directory(this.devFolder);
 
       if (this.existingTemplatePath) {
+        this.existingTemplatePath.replace(/\/$/g, '');
         this.indexFile = this.existingTemplatePath + '/' + this.devFile;
       } else {
         this.indexFile = this.sourceRoot() + '/' + this.devFile;
@@ -130,7 +137,6 @@ module.exports = yeoman.generators.Base.extend({
               }
               that.fetchRemote(reqObj, function(error, response, body) {
                 if (!error) {
-                  that.write(that.devFolder + '/' + idx + '/' + that.devFile, body);
                   $ = cheerio.load(body);
                   $('img').each(function(j, elem) {
                     var path = $(this).attr('src'),
@@ -138,6 +144,11 @@ module.exports = yeoman.generators.Base.extend({
                       filename = path.substring(path.lastIndexOf('/') + 1);
 
                     if (imgArr.indexOf(path) === -1) {
+                      imgArr.push(path);
+                      if (path.indexOf('http') !== 0) { // Path must be relative
+                        path = that.existingTemplatePath + '/' + path;
+                      }
+
                       imgReq.url = path;
                       if (that.isPasswordProtected) {
                         imgReq.auth = {
@@ -146,11 +157,12 @@ module.exports = yeoman.generators.Base.extend({
                           sendImmediately: false
                         }
                       }
-                      imgArr.push(path);
                       that.fetchRemoteFile(imgReq, that.devFolder + '/' + idx + '/img/' + filename);
                     }
 
                   });
+
+                  that.write(that.devFolder + '/' + idx + '/' + that.devFile, body);
                 }
               });
             }(this, i));
@@ -173,13 +185,18 @@ module.exports = yeoman.generators.Base.extend({
             }
             that.fetchRemote(reqObj, function(error, response, body) {
               if (!error) {
-                that.write(that.devFolder + '/' + that.devFile, body);
                 $ = cheerio.load(body);
                 $('img').each(function(i, elem) {
                   var path = $(this).attr('src'),
                     imgReq = {},
                     filename = path.substring(path.lastIndexOf('/') + 1);
+
                   if (imgArr.indexOf(path) === -1) {
+                    imgArr.push(path);
+                    if (path.indexOf('http') !== 0) { // Path must be relative
+                      path = that.existingTemplatePath + '/' + path;
+                    }
+
                     imgReq.url = path;
                     if (that.isPasswordProtected) {
                       imgReq.auth = {
@@ -188,10 +205,11 @@ module.exports = yeoman.generators.Base.extend({
                         sendImmediately: false
                       }
                     }
-                    imgArr.push(path);
                     that.fetchRemoteFile(imgReq, that.devFolder + '/img/' + filename);
                   }
                 });
+
+                that.write(that.devFolder + '/' + that.devFile, body);
               }
             });
           }(this));
