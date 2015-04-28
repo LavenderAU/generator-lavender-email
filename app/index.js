@@ -149,6 +149,8 @@ module.exports = yeoman.generators.Base.extend({
                         path = that.existingTemplatePath + '/' + path;
                       }
 
+                      path = path.replace(/\\/g, '/');
+
                       imgReq.url = path;
                       if (that.isPasswordProtected) {
                         imgReq.auth = {
@@ -196,6 +198,8 @@ module.exports = yeoman.generators.Base.extend({
                     if (path.indexOf('http') !== 0) { // Path must be relative
                       path = that.existingTemplatePath + '/' + path;
                     }
+
+                    path = path.replace(/\\/g, '/');
 
                     imgReq.url = path;
                     if (that.isPasswordProtected) {
