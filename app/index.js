@@ -46,7 +46,7 @@ module.exports = yeoman.generators.Base.extend({
       default: 'dist'
     }, {
       name: 'noVariations',
-      message: 'Cheerios. How many variations of the EDM needs to be built?',
+      message: 'How many variations of the EDM needs to be built?',
       default: 1
     }, {
       name: 'stagingPath',
@@ -54,7 +54,8 @@ module.exports = yeoman.generators.Base.extend({
     }, {
       name: 'isSilverPop',
       type: 'confirm',
-      message: 'Is this a SilverPop template? (or Standard)'
+      message: 'Is this a SilverPop template? (or Standard)',
+      default: false
     }, {
       name: 'existingTemplatePath',
       message: 'If this template is similar to a previously built EDM, specify its path.'
@@ -81,7 +82,8 @@ module.exports = yeoman.generators.Base.extend({
     }];
 
     this.prompt(prompts, function(answers) {
-      var features = answers.features;
+      var features = answers.features,
+        temp;
 
       function hasFeature(feat) {
         return features && features.indexOf(feat) !== -1;
@@ -99,6 +101,17 @@ module.exports = yeoman.generators.Base.extend({
       this.password = answers.password;
       this.devFile = 'index.html';
 
+      if (this.existingTemplatePath) {
+        this.existingTemplatePath.replace(/\/$/g, '');
+        temp = this.existingTemplatePath.substring(this.existingTemplatePath.lastIndexOf('/') + 1);
+        if (temp.indexOf('.html') > 0) {
+          this.devFile = temp;
+        }
+        this.indexFile = this.existingTemplatePath + '/' + this.devFile;
+      } else {
+        this.indexFile = this.sourceRoot() + '/' + this.devFile;
+      }
+
       done();
     }.bind(this));
   },
@@ -111,115 +124,84 @@ module.exports = yeoman.generators.Base.extend({
           buildFolder: this.buildFolder,
           stagingPath: this.stagingPath
         },
-        tempFile, reqObj = {};
+        tempFile, reqObj = {},
+        edmConfig;
 
       this.directory(this.devFolder);
 
       if (this.existingTemplatePath) {
-        this.existingTemplatePath.replace(/\/$/g, '');
-        this.indexFile = this.existingTemplatePath + '/' + this.devFile;
-      } else {
-        this.indexFile = this.sourceRoot() + '/' + this.devFile;
-      }
-
-      if (this.noVariations > 1) {
-        for (var i = 1; i <= this.noVariations; i += 1) {
-          this.mkdir(this.devFolder + '/' + i + '/img');
-          if (this.existingTemplatePath) {
-            (function(that, idx) {
-              reqObj.url = that.indexFile;
-              if (that.isPasswordProtected) {
-                reqObj.auth = {
-                  user: that.username,
-                  pass: that.password,
-                  sendImmediately: false
-                }
-              }
-              that.fetchRemote(reqObj, function(error, response, body) {
-                if (!error) {
-                  $ = cheerio.load(body);
-                  $('img').each(function(j, elem) {
-                    var path = $(this).attr('src'),
-                      imgReq = {},
-                      filename = path.substring(path.lastIndexOf('/') + 1);
-
-                    if (imgArr.indexOf(path) === -1) {
-                      imgArr.push(path);
-                      if (path.indexOf('http') !== 0) { // Path must be relative
-                        path = that.existingTemplatePath + '/' + path;
-                      }
-
-                      path = path.replace(/\\/g, '/');
-
-                      imgReq.url = path;
-                      if (that.isPasswordProtected) {
-                        imgReq.auth = {
-                          user: that.username,
-                          pass: that.password,
-                          sendImmediately: false
-                        }
-                      }
-                      that.fetchRemoteFile(imgReq, that.devFolder + '/' + idx + '/img/' + filename);
-                    }
-
-                  });
-
-                  that.write(that.devFolder + '/' + idx + '/' + that.devFile, body);
-                }
-              });
-            }(this, i));
-          } else {
-            this.directory(this.sourceRoot() + '/img', this.devFolder + '/' + i + '/img');
-            this.template(this.indexFile, this.devFolder + '/' + i + '/' + this.devFile, projectInfo);
+        if (this.noVariations > 1) {
+          for (var i = 1; i <= this.noVariations; i += 1) {
+            this.mkdir(this.devFolder + '/' + i + '/img');
+            fetchAssets(this, i);
           }
+        } else {
+          this.mkdir(this.devFolder + '/img');
+          fetchAssets(this);
         }
       } else {
-        this.mkdir(this.devFolder + '/img');
-        if (this.existingTemplatePath) {
+        edmConfig = {
+          info: projectInfo,
+          width: 600,
+          bgColor: '#ffffff',
+          sidePad: 30,
+          mSidePad: 20
+        };
+
+        if (this.noVariations > 1) {
+          // for (var i = 1; i <= this.noVariations; i += 1) {
+          //   this.mkdir(this.devFolder + '/' + i + '/img');
+          //   this.directory(this.sourceRoot() + '/img', this.devFolder + '/' + i + '/img');
+          //   this.template(this.indexFile, this.devFolder + '/' + i + '/' + this.devFile, projectInfo);
+          // }
+        } else {
           (function(that) {
-            reqObj.url = that.indexFile;
-            if (that.isPasswordProtected) {
-              reqObj.auth = {
-                user: that.username,
-                pass: that.password,
-                sendImmediately: false
-              }
-            }
-            that.fetchRemote(reqObj, function(error, response, body) {
-              if (!error) {
-                $ = cheerio.load(body);
-                $('img').each(function(i, elem) {
-                  var path = $(this).attr('src'),
-                    imgReq = {},
-                    filename = path.substring(path.lastIndexOf('/') + 1);
+            that.mkdir(that.devFolder + '/img');
+            that.directory(that.sourceRoot() + '/img', that.devFolder + '/img');
+            fs.readFile('edm-components.json', 'utf8', function(err, data) {
+              var edmcomps,
+                compsMarkup = '';
+              if (!err) {
+                try {
+                  edmcomps = JSON.parse(data);
+                  edmConfig = edmcomps;
+                  edmConfig.info = projectInfo;
 
-                  if (imgArr.indexOf(path) === -1) {
-                    imgArr.push(path);
-                    if (path.indexOf('http') !== 0) { // Path must be relative
-                      path = that.existingTemplatePath + '/' + path;
-                    }
-
-                    path = path.replace(/\\/g, '/');
-
-                    imgReq.url = path;
-                    if (that.isPasswordProtected) {
-                      imgReq.auth = {
-                        user: that.username,
-                        pass: that.password,
-                        sendImmediately: false
-                      }
-                    }
-                    that.fetchRemoteFile(imgReq, that.devFolder + '/img/' + filename);
+                  for (var i = 0, fileContent; i < edmConfig.components.length; i += 1) {
+                    fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmConfig.components[i] + '/index.html', 'utf8');
+                    compsMarkup = compsMarkup + '\n' + fileContent;
                   }
-                });
 
-                that.write(that.devFolder + '/' + that.devFile, body);
+                  // Add compsMarkup to index template
+                  fs.readFile(that.indexFile, 'utf8', function(err, data) {
+                    if (err) {
+                      throw new Error('Error reading source index.html. Adding components failed.');
+                    }
+
+                    var result = data.replace('EDMCOMPONENTS', compsMarkup);
+                    fs.writeFile(that.indexFile, result, 'utf8', function(err) {
+                      if (err) {
+                        throw new Error('Error writing source index.html. Adding components failed.');
+                      }
+
+                      that.template(that.indexFile, that.devFolder + '/' + that.devFile, edmConfig);
+                      fs.writeFile(that.indexFile, data, 'utf8', function(err) {
+                        if (err) {
+                          throw new Error('Error reverting source index.html.');
+                        }
+                      });
+                    });
+                  });
+
+                } catch (error) {
+                  console.log(error);
+                }
+              } else {
+                that.log(chalk.yellow.inverse('\n`edm-components.json` file was not found!\n'));
+                that.template(that.indexFile, that.devFolder + '/' + that.devFile, edmConfig);
               }
             });
           }(this));
-        } else {
-          this.directory(this.sourceRoot() + '/img', this.devFolder + '/img');
-          this.template(this.indexFile, this.devFolder + '/' + this.devFile, projectInfo);
         }
       }
 
@@ -227,6 +209,52 @@ module.exports = yeoman.generators.Base.extend({
       this.template('gitignore', '.gitignore', projectInfo);
       this.copy('gitattributes', '.gitattributes');
       this.template('Gruntfile.js', 'Gruntfile.js', projectInfo);
+
+      function fetchAssets(that, idx) {
+          reqObj.url = that.indexFile;
+          if (that.isPasswordProtected) {
+            reqObj.auth = {
+              user: that.username,
+              pass: that.password,
+              sendImmediately: false
+            }
+          }
+
+          idx = idx ? '/' + idx : '';
+
+          that.fetchRemote(reqObj, function(error, response, body) {
+            if (!error) {
+              $ = cheerio.load(body);
+              $('img').each(function(j, elem) {
+                var path = $(this).attr('src'),
+                  imgReq = {},
+                  filename = path.substring(path.lastIndexOf('/') + 1);
+
+                if (imgArr.indexOf(path) === -1) {
+                  imgArr.push(path);
+                  if (path.indexOf('http') !== 0) { // Path must be relative
+                    path = that.existingTemplatePath + '/' + path;
+                  }
+
+                  path = path.replace(/\\/g, '/');
+
+                  imgReq.url = path;
+                  if (that.isPasswordProtected) {
+                    imgReq.auth = {
+                      user: that.username,
+                      pass: that.password,
+                      sendImmediately: false
+                    }
+                  }
+                  that.fetchRemoteFile(imgReq, that.devFolder + idx + '/img/' + filename);
+                }
+
+              });
+
+              that.write(that.devFolder + idx + '/' + that.devFile, body);
+            }
+          });
+        } // end fetchAssets
     },
 
     projectfiles: function() {

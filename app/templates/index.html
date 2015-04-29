@@ -1,37 +1,53 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><%= projectName %></title>
-    <style type="text/css">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%=info.projectName %>
+  </title>
+  <style type="text/css">
     #outlook a {
-      padding:0;
+      padding: 0;
     }
-    body{
-      width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;
+    body {
+      width: 100% !important;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      margin: 0;
+      padding: 0;
     }
     .ExternalClass {
-      width:100%;
+      width: 100%;
     }
-    *{
-      line-height:120%;
+    * {
+      line-height: 120%;
     }
-	
-    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+    .ExternalClass,
+    .ExternalClass p,
+    .ExternalClass span,
+    .ExternalClass font,
+    .ExternalClass td,
+    .ExternalClass div {
       line-height: 100%;
     }
     #backgroundTable {
-      margin:0; padding:0; width:100% !important; line-height: 100% !important;
+      margin: 0;
+      padding: 0;
+      width: 100% !important;
+      line-height: 100% !important;
     }
     img {
-      outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
     }
     a img {
-      border:none;
+      border: none;
     }
     .image_fix {
-      display:block;
+      display: block;
     }
     p {
       margin: 1em 0;
@@ -40,399 +56,146 @@
       border-collapse: collapse;
     }
     table {
-      border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
     }
-	.appleLinks{
-		pointer-events:none !important;
-		cursor:default !important;
-	}
-    /***************************************************
-    ****************************************************
-    MOBILE TARGETING
-    ****************************************************
-    ***************************************************/
+    .appleLinks {
+      pointer-events: none !important;
+      cursor: default !important;
+    }
     @media all and (max-width: 568px) {
-      /* Part one of controlling phone number linking for mobile. */
-      body[yahoo] a[href^="tel"], body[yahoo] a[href^="sms"] {
+      body[yahoo] a[href^="tel"],
+      body[yahoo] a[href^="sms"] {
         text-decoration: none;
-        color: inherit !important; /* or whatever your want */
+        color: inherit !important;
         pointer-events: none;
         cursor: default;
       }
-      body[yahoo] .mobile_link a[href^="tel"], body[yahoo] .mobile_link a[href^="sms"] {
+      body[yahoo] tr {
+        width: 100%;
+      }
+      body[yahoo] .mobile_link a[href^="tel"],
+      body[yahoo] .mobile_link a[href^="sms"] {
         text-decoration: default;
         color: inherit !important;
         pointer-events: auto;
         cursor: default;
       }
-	  body[yahoo] .wspread{
-		  width:100% !important;
-		  display:block !important;
-		  height: auto !important;
-      min-width: 0 !important;
-	  }
-	  body[yahoo] .mobile-show{
-		  display:block;
-		  width:100% !important;
-		  height:auto !important;
-	  }
-	  body[yahoo] .mobile-hide{
-		  display:none !important;
-	  }
-	  body[yahoo] .mpad{
-		  padding-left:15px;
-		  padding-right:15px;
-	  }
-	  body[yahoo] .mpad tbody{
-		  display:block;
-	  }
-	  body[yahoo] .pl10{
-		  padding-left:20px;
-	  }
-	  body[yahoo] .pr10{
-		  padding-right:20px;
-	  }
-	  body[yahoo] .plr10{
-		  padding-left:10px;
-		  padding-right:10px;
-	  }
-	  body[yahoo] .plrlarge{
-		  padding-left:50px;
-		  padding-right:50px;
-	  }
-	  body[yahoo] .mobile-thin{
-		  width:20px!important;
-		  
-	  }
-	  body[yahoo] .mobile-swap-wide {
+      body[yahoo] .wspread {
+        width: 100% !important;
+        display: block !important;
+        height: auto !important;
+        min-width: 0 !important;
+      }
+      body[yahoo] .mobile-show {
+        display: block;
         width: 100% !important;
         height: auto !important;
-        display: block !important;
-        float: none !important;
-        overflow: visible !important;
       }
-	  body[yahoo] .mobile-swap {
+      body[yahoo] .mobile-hide {
+        display: none !important;
+      }
+      body[yahoo] .mpad {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      body[yahoo] .mpad tbody {
+        display: block;
+      }
+      body[yahoo] .pl10 {
+        padding-left: 10px;
+      }
+      body[yahoo] .pr10 {
+        padding-right: 10px;
+      }
+      body[yahoo] .pl15 {
+        padding-left: 15px;
+      }
+      body[yahoo] .pr15 {
+        padding-right: 15px;
+      }
+      body[yahoo] .pl20 {
+        padding-left: 20px;
+      }
+      body[yahoo] .pr20 {
+        padding-right: 20px;
+      }
+      body[yahoo] .pl30 {
+        padding-left: 30px;
+      }
+      body[yahoo] .pr30 {
+        padding-right: 30px;
+      }
+      body[yahoo] .plr10 {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      body[yahoo] .plr15 {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      body[yahoo] .plr20 {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      body[yahoo] .plr30 {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+      body[yahoo] .side-pad {
+        width: <%= mSidePad%>px!important;
+      }
+      body[yahoo] .mobile-swap {
         width: auto !important;
         height: auto !important;
         display: block !important;
         float: none !important;
         overflow: visible !important;
-		margin:0 auto;
+        margin: 0 auto;
       }
-      body[yahoo] .header-img {
-          height: auto!important;
+      body[yahoo] .mobile-swap.wide {
+        width: 100% !important;
       }
-        body[yahoo] .gmail-app-fix {
-            width:100%!important;
-            min-width: 280px!important;
-        }
+      body[yahoo] .mob-h-auto {
+        height: auto!important;
+      }
+      body[yahoo] .gmail-app-fix {
+        width: 100%!important;
+        min-width: 0!important;
+      }
     }
-    /* More Specific Targeting */
     @media all and (min-width: 768px) and (max-width: 1024px) {
-      /* You guessed it, ipad (tablets, smaller screens, etc) */
-      /* repeating for the ipad */
-      body[yahoo] a[href^="tel"], body[yahoo] a[href^="sms"] {
+      body[yahoo] a[href^="tel"],
+      body[yahoo] a[href^="sms"] {
         text-decoration: none;
-        color: blue; /* or whatever your want */
+        color: blue;
         pointer-events: none;
         cursor: default;
       }
-      body[yahoo] .mobile_link a[href^="tel"], body[yahoo] .mobile_link a[href^="sms"] {
+      body[yahoo] .mobile_link a[href^="tel"],
+      body[yahoo] .mobile_link a[href^="sms"] {
         text-decoration: default;
         color: orange !important;
         pointer-events: auto;
         cursor: default;
       }
     }
-    @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-    /* Put your iPhone 4g styles in here */
-    }
-    /* Android targeting */
-    @media only screen and (-webkit-device-pixel-ratio:.75){
-    /* Put CSS for low density (ldpi) Android layouts in here */
-    }
-    @media only screen and (-webkit-device-pixel-ratio:1){
-    /* Put CSS for medium density (mdpi) Android layouts in here */
-    }
-    @media only screen and (-webkit-device-pixel-ratio:1.5){
-    /* Put CSS for high density (hdpi) Android layouts in here */
-    }
-    /* end Android targeting */
-    </style>
-    <!-- Targeting Windows Mobile -->
-    <!--[if IEMobile 7]>
-    <style type="text/css">
-    
-    </style>
-    <![endif]-->
-    <!-- ***********************************************
-    ****************************************************
-    END MOBILE TARGETING
-    ****************************************************
-    ************************************************ -->
-    <!--[if gte mso 9]>
-    <style>
-    /* Target Outlook 2007 and 2010 */
-    </style>
-    <![endif]-->
-  </head>
-  <body yahoo="fix" bgcolor="#f9f9f9">
-    <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" width="100%" bgcolor="#f9f9f9">
-      <tr>
-        <td valign="top">
-          <table cellpadding="0" cellspacing="0" border="0" align="center">
-            <tr>
-              <td width="600" valign="top" class="wspread" style="min-wdith:600px">
-              	<table cellpadding="0" cellspacing="0" border="0" id="viewonline" width="600" class="wspread">
-                	<tr>
-                    	<td width="20"><img src="img/p.gif" height="30" width="20" style="display:block;border:0;" border="0"/></td>
-                    	<td align="center" valign="middle">
-                        	<span style="font-family:Arial, Helvetica, sans-serif; font-size:10px;color:#666666;">
-                           	If you are having problems viewing this email please <a href="#" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size:10px;color:#666666;">view online</a>. </span>
-                        </td>
-                        <td width="20"><img src="img/p.gif" height="30" width="20" style="display:block;border:0;" border="0"/></td>
-                    <tr>
-                </table>
-                <table cellpadding="0" cellspacing="0" border="0" id="header" width="100%" bgcolor="#414141" style="color:#ffffff;border-collapse: collapse;">
-                	<tr>
-                    	<td class="header-img" height="455" style="border-collapse: collapse;"><a class="header-img" style="height:100%;text-decoration:none;display:block;border:0;" href="#" target="_blank">
-                        <span style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap"><img src="img/header-mobile.png" style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap-wide" alt="The best, better. The finest, finer. The greatest, greater. Experience the ADA American Express® Platinum Reserve Credit Card and receive a $295 Statement Credit[1]. Apply Now." /></span>
-                              <img src="img/header.gif" alt="The best, better. The finest, finer. The greatest, greater. Experience the ADA American Express® Platinum Reserve Credit Card and receive a $295 Statement Credit[1]. Apply Now." width="600" height="455" border="0" style="display:block;border:0;" class="wspread mobile-hide"/></a></td>                    
-                    <tr>
-                </table>
-                <table cellpadding="0" cellspacing="0" border="0" id="body" width="100%" bgcolor="#414141" style="color:#ffffff;border-collapse: collapse;">
-                    <tr>
-                      <td align="center"><img src="img/p.gif" alt="" width="20" height="20" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                	<tr>
-                      <td align="left" valign="top"><img class="mobile-thin" src="img/p.gif" height="20" width="40" style="display:inline;border:0;" border="0"/><span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;font-weight:bold;">Dear &lt;Firstname&gt;,</span></td>
-                    </tr>
-                    <tr>
-                      <td align="center"><img src="img/p.gif" alt="" width="20" height="20" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="center">
-                      	<table cellpadding="0" cellspacing="0" border="0" width="100%">
-                        	<tr>
-                            	<td width="40" class="mobile-thin"><img class="mobile-thin" src="img/p.gif" height="20" width="40" style="display:block;border:0;" border="0"/></td>
-                                <td style="min-width:520px;" align="left" class="gmail-app-fix"><span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;">With unrivalled travel, shopping and dining privileges, the ADA Platinum Reserve Credit Card is the Card that truly rewards you for living life to the fullest – making it the ideal Card for hard-working ADA members.</span></td>
-                                <td width="40" class="mobile-thin"><img class="mobile-thin" src="img/p.gif" height="20" width="40" style="display:block;border:0;" border="0"/></td>
-                            </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align="center"><img src="img/p.gif" alt="" width="20" height="20" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="center">
-                      <span style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap"><img src="img/welcoming-you-mobile.gif" style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap" alt="Apply now to receive a $295 Statement Credit. New Card Members who apply by 30 April 2015, are approved and spend $500 on eligible purchases within the first two months will receive a $295 Statement Credit[1] – that’s enough to cover your first year’s annual Card fee. This introductory offer excludes existing Card Members or previous Card Members who have held a American Express Card in the last 12 months." /></span>
-                      <img src="img/welcoming-you.gif" alt="Apply now to receive a $295 Statement Credit. New Card Members who apply by 30 April 2015, are approved and spend $500 on eligible purchases within the first two months will receive a $295 Statement Credit[1] – that’s enough to cover your first year’s annual Card fee. This introductory offer excludes existing Card Members or previous Card Members who have held a American Express Card in the last 12 months." width="520" height="124" border="0" style="display:block;" class="wspread mobile-hide"/></td>
-                    </tr>
-                    <tr>
-                      <td align="center"><img src="img/p.gif" height="20" width="20" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="center">	
-                          <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                        	<tr>
-                            	<td width="40" class="mobile-thin"><img class="mobile-thin" src="img/p.gif" height="20" width="40" style="display:block;border:0;" border="0"/></td>
-                                <td align="left" valign="top">
-                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                        <tr>
-                                            <td class="mobile-swap-wide" align="left" valign="top" style="max-width:100%;" width="29%">
-                                                <span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;font-weight:bold;">Taking you further</span><br /><br />
-                                                <span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;">Receive a complimentary economy return flight<span style="color:#ffffff; font-family: Arial; outline: 0; font-size: 9px; border: 0;line-height:14px;vertical-align: top;vertical-align: 5px !important;vertical-align: 5px ;">2</span> or night’s stay in a select luxury hotel<span style="color:#ffffff; font-family: Arial; outline: 0; font-size: 9px; border: 0;line-height:14px;vertical-align: top;vertical-align: 5px !important;vertical-align: 5px ;">3</span> each anniversary year as well as complimentary Travel Insurance<span style="color:#ffffff; font-family: Arial; outline: 0; font-size: 9px; border: 0;line-height:14px;vertical-align: top;vertical-align: 5px !important;vertical-align: 5px ;">4</span> for you and your family when you pay for travel on your Card. Plus access the new Sydney Airport lounge – for more details <a href="#" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;" target="_blank">click here</a>.</span>
-                                            </td>
-                                            <td class="mobile-swap-wide" align="left" valign="top" style="max-width:100%;" width="6.5%">
-                                                <img src="img/p.gif" height="20" width="100%" style="display:block;border:0;" border="0"/>
-                                                <span style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap">
-                                                    <img src="img/p.gif" height="20" width="100%" style="display:block;border-top:1px solid #6f6966;"/>
-                                                </span>
-                                            </td>
-                                            <td class="mobile-swap-wide" align="left" valign="top" style="max-width:100%;" width="29%">
-                                                <span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;font-weight:bold;">Rewarding your lifestyle</span><br /><br />
-                                                <span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;">Enrol in Membership Rewards <i>Ascent</i><span style="color:#ffffff; font-family: Arial; outline: 0; font-size: 9px; border: 0;line-height:14px;vertical-align: top;vertical-align: 5px !important;vertical-align: 5px ;">5</span> to earn 3 points per $1 spent at selected restaurants. Choose Qantas Direct<span style="color:#ffffff; font-family: Arial; outline: 0; font-size: 9px; border: 0;line-height:14px;vertical-align: top;vertical-align: 5px !important;vertical-align: 5px ;">6</span> and you will earn 3 points per $1 spent on selected Qantas products.</span>
-                                            </td>
-                                            <td class="mobile-swap-wide" align="left" valign="top" style="max-width:100%;" width="6.5%">
-                                                <img src="img/p.gif" height="20" width="100%" style="display:block;border:0;" border="0"/>
-                                                <span style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap">
-                                                    <img src="img/p.gif" height="20" width="100%" style="display:block;border-top:1px solid #6f6966;"/>
-                                                </span>
-                                            </td>
-                                            <td class="mobile-swap-wide" align="left" valign="top" style="max-width:100%;" width="29%">
-                                                <span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;font-weight:bold;">Beyond expectations</span><br /><br />
-                                                <span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;">Receive complimentary Purchase<span style="color:#ffffff; font-family: Arial; outline: 0; font-size: 9px; border: 0;line-height:14px;vertical-align: top;vertical-align: 5px !important;vertical-align: 5px ;">7</span>, Refund<span style="color:#ffffff; font-family: Arial; outline: 0; font-size: 9px; border: 0;line-height:14px;vertical-align: top;vertical-align: 5px !important;vertical-align: 5px ;">7</span> Protection for eligible purchases made on your Card and Online Fraud Protection<span style="color:#ffffff; font-family: Arial; outline: 0; font-size: 9px; border: 0;line-height:14px;vertical-align: top;vertical-align: 5px !important;vertical-align: 5px ;">8</span>.</span>
-                                            </td>
-                                        </tr>
-                                    </table>                                    
-                                </td>
-                                <td width="40" class="mobile-thin"><img class="mobile-thin" src="img/p.gif" height="20" width="40" style="display:block;border:0;" border="0"/></td>
-                            </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align="center"><img src="img/p.gif" alt="" width="20" height="30" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="center" valign="top" class="plrlarge"><span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:13px;">All for a $295 annual Card fee. Offer ends <span class="appleLinks" style="color:#ffffff !important;text-decoration:none !important;">30 April 2015</span>.</span></td>
-                    </tr>
-                    <tr>
-                      <td align="center"><img src="img/p.gif" alt="" width="20" height="20" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="center"><a href="#" target="_blank"><img src="img/apply-now.gif" width="144" height="37" alt="Apply now" border="0" style="display:block;"/></a></td>
-                    </tr>
-                    <tr>
-                      <td align="center"><img src="img/p.gif" alt="" width="20" height="20" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="center"><table cellpadding="0" cellspacing="0" border="0" width="100%">
-                        	<tr>
-                            	<td width="40px" class="mobile-thin"><img src="img/p.gif" height="20" width="100%" style="display:block;border:0;" border="0" class="mobile-thin"/></td>
-                                <td align="center" valign="top" style="max-width:100%;"><span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;">If you’re an existing Card Member, log in to your Online Account <a style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:bold;" href="#" target="_blank">here</a> to see the latest offers.</span></td>
-                                <td width="40px" class="mobile-thin"><img src="img/p.gif" height="20" width="100%" style="display:block;border:0;" border="0" class="mobile-thin"/></td>
-                            </tr>
-                        </table></td>
-                    </tr>
-                    <tr>
-                      <td align="center"><img src="img/p.gif" alt="" width="20" height="25" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                </table>
-                <table cellpadding="0" cellspacing="0" border="0" id="footer" width="100%" bgcolor="#f9f9f9">
-                	<tr>
-                    	<td><img src="img/p.gif" alt="" width="20" height="12" style="display:block;border:0;" border="0"/></td>                    	                        
-                    </tr>
-                    <tr>
-                      <td align="center" valign="top"><span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;"><a href="#" target="_blank" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">Contact Us</a> | <a href="#" target="_blank" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">Privacy Statement</a> | <a href="#" target="_blank" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">Unsubscribe</a></span></td>
-                    </tr>
-                    <tr>
-                      <td><img src="img/p.gif" alt="" width="20" height="12" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                </table>
-                 <div class="plr10">
-                 <table cellpadding="0" cellspacing="0" border="0" id="tnc" width="100%" bgcolor="#f9f9f9">
-                  <tr>
-                      <td align="left" valign="top"><span style="color:#000000;font-family:Arial, Helvetica, sans-serif;font-size:11px;font-weight:bold;">Terms and Conditions</span></td>
-                    </tr>
-                    <tr>
-                      <td><img src="img/p.gif" alt="" width="20" height="12" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="left">
-                      <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                      This email was sent to &lt;email&gt;. If you received this email at a different address the email was forwarded to you. Please do not respond to this email. This mailbox is not monitored and you will not receive a response. To ensure that you receive the latest about your American Express Card via email please add <a href="#" target="_blank" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">americanexpr<u></u>ess@emai<u></u>l.americanexpress.com</a> to your personal address book. American Express credit approval criteria apply. Subject to Terms and Conditions. Interest Rates, fees and charges apply. All information is correct as at <span>24 Dece</span><span>mber 2014</span> and is subject to change.</span>
-                      </td>
-                    </tr>
-                    <tr>
-                    <td>
-                    <table cellpadding="0" cellspacing="0" border="0">
-                      <tr>
-                            <td width="15" valign="top" align="left" class="pl10">
-                                <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">1.</span>
-                            </td>
-                            <td align="left" valign="top" class="pr10">
-                            <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                                Offer only available to new American Express Card applicants who are current ADA members, who apply by <span class="appleLinks" style="text-decoration:none !important; color:#666666 !important; color:#666666;">30 April 2015</span>, are approved and spend $500 on their new Card in the first 2 months of Card Membership. Card Members who currently hold or who have previously held any other Card product offered by American Express Australia Limited in the preceding 12 month period are ineligible for this offer. The $295 Statement Credit will be credited directly onto your account and is not redeemable for cash or other payment form. Statement Credit is normally issued within 5 days of the eligible spend, but may take up to 8 weeks to appear in your account. American Express may be unable to apply the Statement Credit to your Card Account if it has been suspended or cancelled prior to the Statement Credit being issued.
-                            </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="15" valign="top" align="left"  class="pl10">
-                                <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">2.</span>
-                            </td>
-                            <td align="left" valign="top" class="pr10">
-                            <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                            All flights are restricted to selected classes within the Saver Fare family and are subject to availability. The complimentary flight is offered on selected destinations only on economy domestic or short-haul international return flights and not valid for flights with Virgin Australia partner airlines or any codeshare flights. Virgin Australia and American Express cannot guarantee that seats or tickets will be available on the dates or at the times you may wish to fly. Seat availability may be limited to certain dates and/or flights and it may be more difficult to book seats around public holidays, school holidays or special events. Some flights may not have any seats available for this promotion. Route availability is subject to change without notice. Baggage in excess to the 23kgs included in the promotion will attract additional fees, see <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">virginaustralia.com</a> for more information. The offer is subject to the American Express Flight Offer <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">Conditions</a> and air travel is subject to Virgin Australia <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">Terms and Conditions of Carriage</a>.
-                        </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="15" valign="top" align="left"  class="pl10">
-                                <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">3.</span>
-                            </td>
-                            <td align="left" valign="top" class="pr10">
-                            <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                            Hotel night stay is based on a standard room with two people sharing and must be booked two weeks in advance of stay. Subject to availability.
-                            </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="15" valign="top" align="left"  class="pl10">
-                                <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">4.</span>
-                            </td>
-                            <td align="left" valign="top" class="pr10">
-                            <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                               American Express Platinum Reserve Credit Card Insurances are underwritten by ACE Insurance Limited (ABN 23 001 642 020, AFSL No. 239687) (ACE) and are subject to the terms, conditions and exclusions contained in the American Express Platinum Reserve Credit Card Insurances policy of insurance between American Express Australia Limited (ABN 92 108 952 085, AFSL No. 291313) (American Express) and ACE. This site does not take into account your objectives, financial situation or needs. It is important for you to read the Terms and Conditions available <a target="_blank" href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">here</a> and consider the appropriateness of that insurance in relation to your individual requirements.
-                            </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="15" valign="top" align="left"  class="pl10">
-                                <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">5.</span>
-                            </td>
-                            <td align="left" valign="top" class="pr10">
-                            <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                                Subject to the Terms and Conditions of the Membership Rewards program available at <a href="#" target="_blank" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">membershiprewards.com.au/termsandconditions</a> Spending at restaurants, airlines and accommodation, major cruise and tour operators will only be eligible for increased Membership Rewards points where they are categorised as such in the American Express Merchant Acceptance system. For example, dining within a retail department store, hotels, pubs and liquor outlets may not be eligible to receive the additional points for restaurants. Membership Rewards points are awarded on the $AU equivalent amount of the spend in foreign currency. Except for spend in foreign currency, purchases at these merchants are only eligible for additional points if the transactions are made in Australia. You will earn 3 Membership Rewards Points for every dollar you spend in Australia at restaurants listed <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">here</a>. You will earn 2 Membership Rewards Points for every dollar you spend on Airlines, accommodation, major cruises and tour operators paid directly or through travel agents listed <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">here</a> and on spend in foreign currency when overseas and online. You will earn 1 Membership Rewards Point for every dollar you spend in Australia excluding merchants classified as; "utilities" including gas, water and electricity providers: "government" including the Australian Taxation Office, the Australian Postal Corporation (Australia Post), federal/state and local government bodies; "insurance" excluding insurances offered by American Express; and "telecommunications" including goods and services purchased from phone, mobile and internet service providers, where you will earn 0.5 Membership Rewards Points. Earn a maximum of 150,000 points per year of enrolment in Membership Rewards <i>Ascent</i>. Once the threshold is reached, the earn rate will revert to either 0.5 points or 1 point per $1 spent, depending on eligibility of purchases.
-                            </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="15" valign="top" align="left"  class="pl10">
-                                <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">6.</span>
-                            </td>
-                            <td align="left" valign="top" class="pr10">
-                            <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                                You must be a member of the Qantas Frequent Flyer program and have enrolled with Qantas Direct to earn Qantas Points. Qantas Points accrue in accordance with and subject to the Terms and Conditions of the Qantas Direct program for American Express Cards available at <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">here</a> Exclusions and limitations apply. Membership of the Qantas Frequent Flyer program and the earning and redemption of Qantas Points are subject to the Terms and Conditions of the Qantas Frequent Flyer program available at <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">qantas.com/terms</a> A joining fee may apply. Once Qantas Points have been transferred to your Qantas Frequent Flyer membership account, they are governed by the Terms and Conditions of the Qantas Frequent Flyer program and cannot be reversed. You will earn 3 Qantas Points for every dollar you spend in Australia on selected Qantas products and services and on restaurants listed at <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">americanexpress.com.au/qantasdirectearnrate</a> You will earn 2 Qantas Points for every dollar on eligible travel spend, classified as Airlines, accommodation, major cruises and tour operators paid directly or through travel agents listed at <a href="#" style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;" target="_blank">americanexpress.com.au/qantasdirectearnrate</a> in the ‘Major Cruise and Tour Operators’ section and on spend in foreign currency when overseas and online. Qantas Points are awarded on the Australian-dollar billed amount of the spend in foreign currency. You will earn 1 Qantas Point for every dollar you spend in Australia on insurances offered by American Express and at all other providers, excluding merchants classified as: "utilities" including gas, water and electricity providers; "government" including the Australian Taxation Office, the Australian Postal Corporation (Australia Post), federal/state and local government bodies; "insurance", excluding insurances offered by American Express; and "telecommunications" including goods and services purchased from phone, mobile and internet service providers, where you will earn 0.5 Qantas Points. Once you reach 125,000 Qantas Points per year of membership in Qantas Direct the earn rate will revert to 2 Qantas Points per $1 spent on selected Qantas products and services in Australia and 1 point on all other spend except for merchants classified as "utilities", "government", "insurance" and "telecommunications" where you earn 0.5 Qantas Points.
-                            </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="15" valign="top" align="left"  class="pl10">
-                                <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">7.</span>
-                            </td>
-                            <td align="left" valign="top" class="pr10">
-                            <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                            Purchases must be charged in full to your American Express Platinum Reserve Credit Card. Offers cannot be combined with other promotions or offers. American Express and the business establishment reserve the right to change the Terms and Conditions at any time without prior notice.
-                            </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="15" valign="top" align="left"  class="pl10">
-                                <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">8.</span>
-                            </td>
-                            <td align="left" valign="top" class="pr10">
-                            <span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
-                            Provided that you notify us immediately upon discovery of any fraudulent transactions and you have complied with your Card Member Agreement, you will not be held liable for any unauthorised charges.
-                            </span>
-                            </td>
-                        </tr>
-                     </table>
-                     </td>
-                    </tr>
-                    <tr>
-                      <td><img src="img/p.gif" alt="" width="20" height="12" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="left" valign="top"><span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">Australian Dental Association receives a financial benefit from members’ use of this service to allow enhancement of Members’ Services.</span></td>
-                    </tr>
-                    <tr>
-                      <td><img src="img/p.gif" alt="" width="20" height="12" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                    <tr>
-                      <td align="left" valign="top"><span style="color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">Credit provided by American Express Australia Limited (ABN 92 108 952 085), Australian Credit Licence No. 291313.<br />&reg; Registered Trademark of American Express Company.</span></td>
-                    </tr>
-                    <tr>
-                      <td><img src="img/p.gif" alt="" width="20" height="12" style="display:block;border:0;" border="0"/></td>
-                    </tr>
-                </table>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
+  </style>
+</head>
+
+<body yahoo="fix" bgcolor="<%= bgColor%>" style="background: <%= bgColor%>;">
+  <table id="main-wrapper" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="<%= bgColor%>" style="background: <%= bgColor%>;">
+    <tr>
+      <td width="100%" cellpadding="0" cellspacing="0" border="0" align="center">
+        <table class="wspread" width="<%= width%>" valign="top" align="center" style="min-width:<%= width%>px;">
+<!-- BEGIN EDM COMPONENTS -->
+EDMCOMPONENTS
+<!-- END EDM COMPONENTS -->
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
 </html>
