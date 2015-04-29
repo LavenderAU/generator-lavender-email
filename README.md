@@ -8,7 +8,7 @@
 To install generator-lavender-email from npm, run:
 
 ```bash
-npm install -g generator-lavender-email
+npm install LavenderAU/generator-lavender-email
 ```
 
 Finally, initiate the generator:
