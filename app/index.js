@@ -125,7 +125,7 @@ module.exports = yeoman.generators.Base.extend({
           stagingPath: this.stagingPath
         },
         tempFile, reqObj = {},
-        edmConfig;
+        edmConfig, compsMarkup = '';
 
       this.directory(this.devFolder);
 
@@ -150,58 +150,14 @@ module.exports = yeoman.generators.Base.extend({
           mSidePad: 20
         };
 
+        compsMarkup = renderComps(this);
+
         if (this.noVariations > 1) {
-          // for (var i = 1; i <= this.noVariations; i += 1) {
-          //   this.mkdir(this.devFolder + '/' + i + '/img');
-          //   this.directory(this.sourceRoot() + '/img', this.devFolder + '/' + i + '/img');
-          //   this.template(this.indexFile, this.devFolder + '/' + i + '/' + this.devFile, projectInfo);
-          // }
+          for (var i = 1; i <= this.noVariations; i += 1) {
+            buildEDM(this, i);
+          }
         } else {
-          (function(that) {
-            that.mkdir(that.devFolder + '/img');
-            that.directory(that.sourceRoot() + '/img', that.devFolder + '/img');
-            fs.readFile('edm-components.json', 'utf8', function(err, data) {
-              var edmcomps,
-                compsMarkup = '';
-              if (!err) {
-                try {
-                  edmcomps = JSON.parse(data);
-                  edmConfig = edmcomps;
-                  edmConfig.info = projectInfo;
-
-                  for (var i = 0, fileContent, data; i < edmcomps.components.length; i += 1) {
-                    data = edmcomps;
-                    data.component = edmcomps.components[i].config || {
-                      style: {}
-                    };
-                    fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].id + '/index.html', 'utf8');
-                    fileContent = that.engine(fileContent, data);
-                    compsMarkup = compsMarkup + '\n' + fileContent;
-                    delete(data.component);
-                  }
-
-                  delete(edmConfig.components);
-
-                  // Add compsMarkup to index template
-                  var indexSrc = fs.readFileSync(that.indexFile, 'utf8');
-                  var result = indexSrc.replace('EDMCOMPONENTS', compsMarkup);
-
-                  result = that.engine(result, edmConfig);
-                  fs.writeFile(that.devFolder + '/' + that.devFile, result, 'utf8', function(err) {
-                    if (err) {
-                      throw new Error('Error writing source index.html. Adding components failed.');
-                    }
-                  });
-
-                } catch (error) {
-                  console.log(error);
-                }
-              } else {
-                that.log(chalk.yellow.inverse('\n`edm-components.json` file was not found!\n'));
-                that.template(that.indexFile, that.devFolder + '/' + that.devFile, edmConfig);
-              }
-            });
-          }(this));
+          buildEDM(this);
         }
       }
 
@@ -220,7 +176,7 @@ module.exports = yeoman.generators.Base.extend({
             }
           }
 
-          idx = idx ? '/' + idx : '';
+          idx = idx !== undefined ? '/' + idx : '';
 
           that.fetchRemote(reqObj, function(error, response, body) {
             if (!error) {
@@ -255,6 +211,57 @@ module.exports = yeoman.generators.Base.extend({
             }
           });
         } // end fetchAssets
+
+      function renderComps(that) {
+          var edmcomps = fs.readFileSync('edm-components.json', 'utf8'),
+            compsMarkup = '';
+
+          try {
+            edmcomps = JSON.parse(edmcomps);
+            edmConfig = edmcomps;
+            edmConfig.info = projectInfo;
+
+            for (var i = 0, fileContent, data; i < edmcomps.components.length; i += 1) {
+              data = edmcomps;
+              data.component = edmcomps.components[i].config || {
+                style: {}
+              };
+              fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].id + '/index.html', 'utf8');
+              fileContent = that.engine(fileContent, data);
+              compsMarkup = compsMarkup + '\n' + fileContent;
+              delete(data.component);
+            }
+
+            delete(edmConfig.components);
+
+          } catch (error) {
+            console.log(error);
+          }
+
+          return compsMarkup;
+        } // end renderComps
+
+      function buildEDM(that, i) {
+          if (i !== undefined) {
+            i = '/' + i;
+          } else {
+            i = '';
+          }
+
+          that.mkdir(that.devFolder + i + '/img');
+          that.directory(that.sourceRoot() + '/img', that.devFolder + i + '/img');
+
+          // Add compsMarkup to index template
+          var indexSrc = fs.readFileSync(that.indexFile, 'utf8');
+          var result = indexSrc.replace('EDMCOMPONENTS', compsMarkup);
+
+          result = that.engine(result, edmConfig);
+          fs.writeFile(that.devFolder + i + '/' + that.devFile, result, 'utf8', function(err) {
+            if (err) {
+              throw new Error('Error writing source index.html. Adding components failed.');
+            }
+          });
+        } // end buildEDM
     },
 
     projectfiles: function() {
