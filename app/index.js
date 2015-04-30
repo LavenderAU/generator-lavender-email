@@ -142,8 +142,10 @@ module.exports = yeoman.generators.Base.extend({
       } else {
         edmConfig = {
           info: projectInfo,
-          width: 600,
-          bgColor: '#ffffff',
+          style: {
+            width: 600,
+            bgColor: '#ffffff'
+          },
           sidePad: 30,
           mSidePad: 20
         };
@@ -167,30 +169,28 @@ module.exports = yeoman.generators.Base.extend({
                   edmConfig = edmcomps;
                   edmConfig.info = projectInfo;
 
-                  for (var i = 0, fileContent; i < edmConfig.components.length; i += 1) {
-                    fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmConfig.components[i] + '/index.html', 'utf8');
+                  for (var i = 0, fileContent, data; i < edmcomps.components.length; i += 1) {
+                    data = edmcomps;
+                    data.component = edmcomps.components[i].config || {
+                      style: {}
+                    };
+                    fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].id + '/index.html', 'utf8');
+                    fileContent = that.engine(fileContent, data);
                     compsMarkup = compsMarkup + '\n' + fileContent;
+                    delete(data.component);
                   }
 
+                  delete(edmConfig.components);
+
                   // Add compsMarkup to index template
-                  fs.readFile(that.indexFile, 'utf8', function(err, data) {
+                  var indexSrc = fs.readFileSync(that.indexFile, 'utf8');
+                  var result = indexSrc.replace('EDMCOMPONENTS', compsMarkup);
+
+                  result = that.engine(result, edmConfig);
+                  fs.writeFile(that.devFolder + '/' + that.devFile, result, 'utf8', function(err) {
                     if (err) {
-                      throw new Error('Error reading source index.html. Adding components failed.');
+                      throw new Error('Error writing source index.html. Adding components failed.');
                     }
-
-                    var result = data.replace('EDMCOMPONENTS', compsMarkup);
-                    fs.writeFile(that.indexFile, result, 'utf8', function(err) {
-                      if (err) {
-                        throw new Error('Error writing source index.html. Adding components failed.');
-                      }
-
-                      that.template(that.indexFile, that.devFolder + '/' + that.devFile, edmConfig);
-                      fs.writeFile(that.indexFile, data, 'utf8', function(err) {
-                        if (err) {
-                          throw new Error('Error reverting source index.html.');
-                        }
-                      });
-                    });
                   });
 
                 } catch (error) {
