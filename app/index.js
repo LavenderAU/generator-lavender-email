@@ -147,7 +147,9 @@ module.exports = yeoman.generators.Base.extend({
             bgColor: '#ffffff'
           },
           sidePad: 30,
-          mSidePad: 20
+          mSidePad: 20,
+          tbPad: 30,
+          mTbPad: 20
         };
 
         compsMarkup = renderComps(this);
@@ -223,11 +225,23 @@ module.exports = yeoman.generators.Base.extend({
 
             for (var i = 0, fileContent, data; i < edmcomps.components.length; i += 1) {
               data = edmcomps;
-              data.component = edmcomps.components[i].config || {
-                style: {}
-              };
-              fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].id + '/index.html', 'utf8');
-              fileContent = that.engine(fileContent, data);
+              data.component = edmcomps.components[i].config || {};
+              if (!data.component.style) {
+                data.component.style = {};
+              }
+              data.component.id = data.component.id || '';
+              data.component.name = edmcomps.components[i].name;
+
+              fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].name + '/index.html', 'utf8');
+
+              try {
+                fileContent = that.engine(fileContent, data);
+              } catch (err) {
+                console.log('\n' + edmcomps.components[i].name + ': Component failed to render');
+                console.log(data);
+              }
+
+              console.log('\n' + edmcomps.components[i].name + '\n');
               compsMarkup = compsMarkup + '\n' + fileContent;
               delete(data.component);
             }
@@ -235,7 +249,7 @@ module.exports = yeoman.generators.Base.extend({
             delete(edmConfig.components);
 
           } catch (error) {
-            console.log(error);
+            console.log('\nError in json file\n' + error);
           }
 
           return compsMarkup;
