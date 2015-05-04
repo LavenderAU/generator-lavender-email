@@ -64,6 +64,10 @@
       mso-table-lspace: 0pt;
       mso-table-rspace: 0pt;
     }
+    .msofix {
+      mso-table-lspace:-2pt;
+      mso-table-rspace:-2pt;
+    }
 
     .appleLinks {
       pointer-events: none !important;
@@ -204,8 +208,8 @@
   <!--[if gte mso 9]>
     <style>
     .msofix {
-      mso-table-lspace:-1pt;
-      mso-table-rspace:-1pt;
+      mso-table-lspace:-2pt;
+      mso-table-rspace:-2pt;
     }
     </style>
   <![endif]-->
@@ -215,10 +219,15 @@
   <table id="main-wrapper" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="<%= style.backgroundColor%>" style="background: <%= style.backgroundColor%>;">
     <tr>
       <td width="100%" cellpadding="0" cellspacing="0" border="0" align="center">
-        <table class="wspread" width="<%= style.width%>" valign="top" align="center" style="min-width:<%= style.width%>px;">
+        <table class="wspread" cellspacing="0" cellpadding="0" border="0" width="<%= style.width%>" valign="top" align="center" style="min-width:<%= style.width%>px;max-width:<%= style.width%>px;">
+          <tr>
+            <td>
 <!-- BEGIN EDM COMPONENTS -->
 EDMCOMPONENTS
+
 <!-- END EDM COMPONENTS -->
+            </td>
+          </tr>
         </table>
       </td>
     </tr>

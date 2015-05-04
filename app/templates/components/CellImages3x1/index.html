@@ -1,0 +1,95 @@
+          <!-- BEGIN <%= component.name%> <%= component.id%> -->
+          <table cellspacing="0" cellpadding="0" border="0" class="wspread <%= component.name%> <%= component.id%>" width="<%= style.width%>" valign="top" align="center" bgcolor="<%= component.style.backgroundColor || style.backgroundColor || 'none'%>" style="min-width:<%= style.width%>px;">
+            <% if(isNaN(component.tbPad) || component.tbPad > 0) { %>
+            <tr>
+              <td width="<%= style.width%>" height="<%= component.tbPad || tbPad || 13%>" valign="top" class="wspread" style="min-wdith:<%= style.width%>px">
+                <img src="img/p.gif" height="<%= component.tbPad || tbPad || 13%>" width="100%" style="display:block;border:0;" border="0"/>
+              </td>
+            </tr>
+            <% } %>
+            <tr>
+              <td width="<%= style.width%>" valign="top" class="wspread" style="min-wdith:<%= style.width%>px">
+                <table cellspacing="0" cellpadding="0" border="0" class="wspread" width="<%= style.width%>" valign="top" align="center" style="min-width:<%= style.width%>px;">
+                  <tr>
+                    <td width="<%= sidePad%>" class="side-pad">
+                      <img class="side-pad" src="img/p.gif" height="30" width="<%= sidePad%>" style="display:block;border:0;" border="0">
+                    </td>
+                    <td align="left">
+                      <table cellspacing="0" cellpadding="0" border="0" class="wspread msofix" width="<%= (style.width-((component.colGap || colGap)+sidePad)*2)/3 %>" valign="top" align="left">
+                        <tr>
+                          <td width="100%" align="center">
+                            <% if(component.linked) { %>
+                            <a href="notyetlinked" target="_blank" style="text-decoration:none;border:0;line-height:0;display:block;">
+                            <% } %>
+                            <span style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap wide"><img src="http://placehold.it/348x106&amp;text=Cell+Image+1" style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap wide" alt=""></span>
+                            <img src="http://placehold.it/176x53&amp;text=Cell+Image+1" alt="" style="display:block;border:0;" class="mobile-hide" />
+                            <% if(component.linked) { %>
+                            </a>
+                            <% } %>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <table cellspacing="0" cellpadding="0" border="0" class="wspread msofix" width="<%= component.colGap || colGap%>" valign="top" align="left">
+                        <tr>
+                          <td width="100%">
+                            <img src="img/p.gif" width="<%= component.colGap || colGap%>" height="20"/>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <table cellspacing="0" cellpadding="0" border="0" class="wspread msofix" width="<%= (style.width-((component.colGap || colGap)+sidePad)*2)/3 %>" valign="top" align="left">
+                        <tr>
+                          <td width="100%" align="center">
+                            <% if(component.linked) { %>
+                            <a href="notyetlinked" target="_blank" style="text-decoration:none;border:0;line-height:0;display:block;">
+                            <% } %>
+                            <span style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap wide"><img src="http://placehold.it/348x106&amp;text=Cell+Image+2" style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap wide" alt=""></span>
+                            <img src="http://placehold.it/176x53&amp;text=Cell+Image+2" alt="" style="display:block;border:0;" class="mobile-hide" />
+                            <% if(component.linked) { %>
+                            </a>
+                            <% } %>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <table cellspacing="0" cellpadding="0" border="0" class="wspread msofix" width="<%= component.colGap || colGap%>" valign="top" align="left">
+                        <tr>
+                          <td width="100%">
+                            <img src="img/p.gif" width="<%= component.colGap || colGap%>" height="20"/>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <table cellspacing="0" cellpadding="0" border="0" class="wspread msofix" width="<%= (style.width-((component.colGap || colGap)+sidePad)*2)/3 %>" valign="top" align="left">
+                        <tr>
+                          <td width="100%" align="center">
+                            <% if(component.linked) { %>
+                            <a href="notyetlinked" target="_blank" style="text-decoration:none;border:0;line-height:0;display:block;">
+                            <% } %>
+                            <span style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap wide"><img src="http://placehold.it/348x106&amp;text=Cell+Image+3" style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap wide" alt=""></span>
+                            <img src="http://placehold.it/176x53&amp;text=Cell+Image+3" alt="" style="display:block;border:0;" class="mobile-hide" />
+                            <% if(component.linked) { %>
+                            </a>
+                            <% } %>
+                          </td>
+                        </tr>
+                      </table>
+
+                    </td>
+                    <td width="<%= sidePad%>" class="side-pad">
+                      <img class="side-pad" src="img/p.gif" height="30" width="<%= sidePad%>" style="display:block;border:0;" border="0">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <% if(isNaN(component.tbPad) || component.tbPad > 0) { %>
+            <tr>
+              <td width="<%= style.width%>" height="<%= component.tbPad || tbPad || 13%>" valign="top" class="wspread" style="min-wdith:<%= style.width%>px">
+                <img src="img/p.gif" height="<%= component.tbPad || tbPad || 13%>" width="100%" style="display:block;border:0;" border="0"/>
+              </td>
+            </tr>
+            <% } %>
+          </table>
+          <!-- END <%= component.name%> <%= component.id%> -->
