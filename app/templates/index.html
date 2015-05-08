@@ -22,7 +22,7 @@
       width: 100%;
     }
     * {
-      line-height: 120%;
+      line-height: 100%;
     }
     .ExternalClass,
     .ExternalClass p,
@@ -36,7 +36,6 @@
       margin: 0;
       padding: 0;
       width: 100% !important;
-      line-height: 100% !important;
     }
     img {
       outline: none;
@@ -56,17 +55,13 @@
     table td {
       border-collapse: collapse;
       padding: 0;
-      line-height: 0;
+      margin: 0;
     }
     table {
       border-collapse: collapse;
       border-spacing: 0;
       mso-table-lspace: 0pt;
       mso-table-rspace: 0pt;
-    }
-    .msofix {
-      mso-table-lspace:-2pt;
-      mso-table-rspace:-2pt;
     }
 
     .appleLinks {
@@ -157,7 +152,7 @@
         padding-right: 30px;
       }
       body[yahoo] .side-pad {
-        width: <%= mSidePad%>px!important;
+        width: <%= mSidePad%>%!important;
       }
       body[yahoo] .tb-pad {
         height: <%= mTbPad%>px!important;
@@ -170,6 +165,7 @@
       }
       body[yahoo] .mobile-swap {
         width: 100% !important;
+        max-width: 100%!important;
         height: auto !important;
         display: block !important;
         float: none !important;
@@ -178,13 +174,13 @@
       }
       body[yahoo] .mobile-swap.wide {
         width: 100% !important;
-        max-width: 100%!important;
       }
       body[yahoo] .mob-h-auto {
         height: auto!important;
       }
-      body[yahoo] .gmail-app-fix {
-        width: 100%!important;
+      body[yahoo] .wspread-inner {
+        width: <%= 100-(mSidePad*2)%>%!important;
+        max-width: <%= 100-(mSidePad*2)%>%!important;
         min-width: 0!important;
       }
     }
@@ -216,19 +212,13 @@
 </head>
 
 <body yahoo="fix" bgcolor="<%= style.backgroundColor%>" style="background: <%= style.backgroundColor%>;">
-  <table id="main-wrapper" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="<%= style.backgroundColor%>" style="background: <%= style.backgroundColor%>;">
+  <table id="main-wrapper" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="<%= style.backgroundColor%>" style="background: <%= style.backgroundColor%>;min-width:<%= style.width%>px;max-width:100%;">
     <tr>
       <td width="100%" cellpadding="0" cellspacing="0" border="0" align="center">
-        <table class="wspread" cellspacing="0" cellpadding="0" border="0" width="<%= style.width%>" valign="top" align="center" style="min-width:<%= style.width%>px;max-width:<%= style.width%>px;">
-          <tr>
-            <td>
 <!-- BEGIN EDM COMPONENTS -->
-EDMCOMPONENTS
 
+EDMCOMPONENTS
 <!-- END EDM COMPONENTS -->
-            </td>
-          </tr>
-        </table>
       </td>
     </tr>
   </table>

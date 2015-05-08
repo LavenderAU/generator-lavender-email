@@ -216,6 +216,7 @@ module.exports = yeoman.generators.Base.extend({
 
       function renderComps(that) {
           var edmcomps = fs.readFileSync('edm-components.json', 'utf8'),
+            layout = fs.readFileSync(that.sourceRoot() + '/components/layout.html', 'utf8'),
             compsMarkup = '';
 
           try {
@@ -235,6 +236,7 @@ module.exports = yeoman.generators.Base.extend({
               fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].name + '/index.html', 'utf8');
 
               try {
+                fileContent = layout.replace('COMPONENTMARKUP', fileContent);
                 fileContent = that.engine(fileContent, data);
               } catch (err) {
                 console.log('\n' + edmcomps.components[i].name + ': Component failed to render');
