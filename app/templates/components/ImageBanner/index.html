@@ -1,36 +1,8 @@
-          <!-- BEGIN <%= component.name%> <%= component.id%> -->
-          <table cellspacing="0" cellpadding="0" border="0" class="wspread <%= component.name%> <%= component.id%>" width="<%= style.width%>" valign="top" align="center" bgcolor="<%= component.style.backgroundColor || style.backgroundColor || 'none'%>" style="min-width:<%= style.width%>px;">
-            <% if(isNaN(component.tbPad) || component.tbPad > 0) { %>
-            <tr>
-              <td width="<%= style.width%>" height="<%= component.tbPad || tbPad || 13%>" valign="top" class="wspread" style="min-wdith:<%= style.width%>px">
-                <img src="img/p.gif" height="<%= component.tbPad || tbPad || 13%>" width="100%" style="display:block;border:0;" border="0"/>
-              </td>
-            </tr>
-            <% } %>
-            <tr>
-              <td width="<%= style.width%>" valign="top" class="wspread" style="min-wdith:<%= style.width%>px">
-                <table cellspacing="0" cellpadding="0" border="0" class="wspread" width="<%= style.width%>" valign="top" align="center" bgcolor="<%= component.style.backgroundColor || style.backgroundColor || 'none'%>" style="min-width:<%= style.width%>px;">
-                  <tr>
-                    <td class="wspread" width="<%= style.width%>" align="<%= component.style.textAlign || 'center'%>" valign="middle">
                       <% if(component.linked) { %>
-                      <a href="notyetlinked" target="_blank" style="text-decoration:none;border:0;line-height:0;display:block;">
+                      <a href="notyetlinked" target="_blank" style="text-decoration:none;border:0;line-height:0;display:block;width:100%">
                       <% } %>
                       <span style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap wide"><img src="http://placehold.it/828&amp;text=Banner" style="display:none;float:left;overflow:hidden;width:0;height:0;" class="mobile-swap wide" alt=""></span>
-                      <img src="http://placehold.it/<%= style.width%>x400&amp;text=Banner" alt="" style="display:block;border:0;" class="mobile-hide" />
+                      <img src="http://placehold.it/<%= style.width%>x400&amp;text=Banner" alt="" style="display:block;border:0;" class="mobile-hide" width="100%" />
                       <% if(component.linked) { %>
                       </a>
                       <% } %>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <% if(isNaN(component.tbPad) || component.tbPad > 0) { %>
-            <tr>
-              <td width="<%= style.width%>" height="<%= component.tbPad || tbPad || 13%>" valign="top" class="wspread" style="min-wdith:<%= style.width%>px">
-                <img src="img/p.gif" height="<%= component.tbPad || tbPad || 13%>" width="100%" style="display:block;border:0;" border="0"/>
-              </td>
-            </tr>
-            <% } %>
-          </table>
-          <!-- END <%= component.name%> <%= component.id%> -->

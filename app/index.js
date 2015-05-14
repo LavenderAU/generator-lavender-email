@@ -125,7 +125,7 @@ module.exports = yeoman.generators.Base.extend({
           stagingPath: this.stagingPath
         },
         tempFile, reqObj = {},
-        edmConfig, compsMarkup = '';
+        edmConfig, comps = {};
 
       this.directory(this.devFolder);
 
@@ -147,12 +147,12 @@ module.exports = yeoman.generators.Base.extend({
             bgColor: '#ffffff'
           },
           sidePad: 30,
-          mSidePad: 20,
+          mSidePad: 6.25,
           tbPad: 30,
           mTbPad: 20
         };
 
-        compsMarkup = renderComps(this);
+        comps = renderComps(this);
 
         if (this.noVariations > 1) {
           for (var i = 1; i <= this.noVariations; i += 1) {
@@ -217,14 +217,15 @@ module.exports = yeoman.generators.Base.extend({
       function renderComps(that) {
           var edmcomps = fs.readFileSync('edm-components.json', 'utf8'),
             layout = fs.readFileSync(that.sourceRoot() + '/components/layout.html', 'utf8'),
-            compsMarkup = '';
+            compsMarkup = '',
+            compsStyle = '';
 
           try {
             edmcomps = JSON.parse(edmcomps);
             edmConfig = edmcomps;
             edmConfig.info = projectInfo;
 
-            for (var i = 0, fileContent, data; i < edmcomps.components.length; i += 1) {
+            for (var i = 0, markupContent, styleContent, data; i < edmcomps.components.length; i += 1) {
               data = edmcomps;
               data.component = edmcomps.components[i].config || {};
               if (!data.component.style) {
@@ -233,18 +234,28 @@ module.exports = yeoman.generators.Base.extend({
               data.component.id = data.component.id || '';
               data.component.name = edmcomps.components[i].name;
 
-              fileContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].name + '/index.html', 'utf8');
+              data.component.innerWidth = data.style.width - (2 * (isNaN(data.component.sidePad) ? data.sidePad : data.component.sidePad));
+
+              markupContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].name + '/index.html', 'utf8');
+              try {
+                styleContent = fs.readFileSync(that.sourceRoot() + '/components/' + edmcomps.components[i].name + '/style.css', 'utf8');
+              } catch (err) {
+                styleContent = '';
+              }
 
               try {
-                fileContent = layout.replace('COMPONENTMARKUP', fileContent);
-                fileContent = that.engine(fileContent, data);
+                markupContent = layout.replace('COMPONENTMARKUP', markupContent);
+                markupContent = that.engine(markupContent, data);
               } catch (err) {
                 console.log('\n' + edmcomps.components[i].name + ': Component failed to render');
-                console.log(data);
+                console.log('Component:\n==========\n', data.component);
               }
 
               console.log('\n' + edmcomps.components[i].name + '\n');
-              compsMarkup = compsMarkup + '\n' + fileContent;
+              compsMarkup = compsMarkup + '\n' + markupContent;
+              if (styleContent) {
+                compsStyle = compsStyle + '\n' + styleContent;
+              }
               delete(data.component);
             }
 
@@ -254,7 +265,10 @@ module.exports = yeoman.generators.Base.extend({
             console.log('\nError in json file\n' + error);
           }
 
-          return compsMarkup;
+          return {
+            markup: compsMarkup,
+            style: compsStyle
+          };
         } // end renderComps
 
       function buildEDM(that, i) {
@@ -269,8 +283,9 @@ module.exports = yeoman.generators.Base.extend({
 
           // Add compsMarkup to index template
           var indexSrc = fs.readFileSync(that.indexFile, 'utf8');
-          var result = indexSrc.replace('EDMCOMPONENTS', compsMarkup);
+          var result = indexSrc.replace('EDMCOMPONENTS_MARKUP', comps.markup);
 
+          result = result.replace('EDMCOMPONENTS_STYLE', comps.style);
           result = that.engine(result, edmConfig);
           fs.writeFile(that.devFolder + i + '/' + that.devFile, result, 'utf8', function(err) {
             if (err) {
